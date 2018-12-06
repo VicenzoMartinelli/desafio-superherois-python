@@ -1,0 +1,33 @@
+{% extends "shared.html" %}
+{% load staticfiles %}
+
+{% block body %}
+<div class="container-fluid" id="container-fav">
+  <div class="display-4 text-center jumbotron-fluid mt-5">
+    {% if superheroes %}
+        Heróis favoritos
+    {% else %}
+        Não existem heróis favoritos!
+    {% endif %}
+  </div>
+
+  <div class="container-fluid">
+    {% for superh in superheroes %}
+    <div class="row mt-3" style="box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.25), -2px -1px 15px rgba(0, 0, 0, 0.25); border-radius: 3em; margin: auto; width: 90%; padding: 1%;">
+        <div class="col-lg-3 d-flex justify-content-center">
+            <img style="height: 16em; width: 13em;" 
+            src="data:image/jpeg;base64,{{ superh.picture }}" />
+        </div>
+        <div class="col-lg-9">
+          <p style="color: var(--corP);">{{ superh.name }}</p>
+          <p>{{ superh.description}}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<footer>
+    <p>&copy; 2018 - Desáfio Python Backend Developer Softfocus</p>
+</footer>
+{% endblock %}

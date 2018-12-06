@@ -1,0 +1,136 @@
+{% extends "shared.html" %}
+{% load staticfiles %}
+
+{% block body %}
+<div id="banner" class="container-fluid rounded">
+  <img src="{% static "images/banner.jpg" %}" style="width: 100%; height: 76vh;">
+
+  <div class="container-fluid">
+    <div>Armazene tudo sobre seus Superheróis</div>
+  </div>
+</div>
+
+<div class="container-fluid" id="container-superheroes">
+  <div class="display-4 text-center jumbotron-fluid mt-5">
+    {% if superheroes %} 
+    Heróis e mais heróis
+    {% else %}
+    Cadastre seus heróis agora!
+    {% endif %}
+  </div>
+
+    {% if superheroes %} 
+  <div class="row w-100 mt-5">
+  
+    {% for superh in superheroes %}
+      <div id="@item.Id" class="col-lg-3 card" onmouseover="return showOptions(this);" onmouseout="return releaseOptions(this)">
+        <div class="card-body">
+          <div class="options">
+
+            {% if superh.isFavorite %}
+            <div class="favorite" style="background-color: #000000;" >
+              <a onclick="return setFavorite(this);"><i class="fa fa-heart"> </i></a>
+            </div>
+            {% else %}
+            <div class="favorite">
+              <a onclick="return setFavorite(this);"><i class="fa fa-heart"> </i></a>
+            </div>
+            {% endif %}
+
+            <div class="update">
+              <a onclick="return editSuper(this)" data-toggle="modal" data-target="#modal-cad"><i class="fa fa-pencil"></i></a>
+            </div><div class="delete" style="">
+              <a onclick="return deleteSuper(this);"><i class="fa fa-times"></i></a>
+            </div>
+          </div>
+          <h3>{{ superh.name }}</h3>
+          <p>{{ superh.description }}</p>
+          <img src="data:image/jpeg;base64,{{ superh.picture }}" />
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+    {% endif %}
+
+    <nav aria-label="Page navigation example" class="mt-5">
+      <ul class="pagination pg-blue justify-content-center pagination-lg">
+        <li class="page-item disabled">
+          <a class="page-link" tabindex="-1">Anterior</a>
+        </li>
+        {% for i in range %}
+            <li class="page-item"><a class="page-link"> {{ i }} </a></li>
+        {% endfor %}
+
+        <li class="page-item">
+          <a class="page-link">Próxima</a>
+        </li>
+      </ul>
+    </nav>
+
+</div>
+
+<div id="controls">
+  <a class="fab" id="btnNew" data-toggle="modal" data-target="#modal-cad" style="bottom: 117px; right: 48px; font-size: 2.4em; ">
+    <i class="fa fa-plus-square-o"></i>
+  </a>
+  <a href="{% url 'favoritos' %}" class="fab" id="btnFavs">
+    <i class="fa fa-heart-o"></i>
+  </a>
+</div>
+
+<div class="modal fade" id="modal-cad" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-notify" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center text-dark bg-white">
+        <h4 class="modal-title w-100 font-weight-bold py-2">Dados do Superherói</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" class="dark-text">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="tab-content">
+          <form role="form" action="{% url 'savehero' %}" method="post" class="tab-pane fade show active" id="frm" aria-labelledby="frm-tab">
+            {% csrf_token %}
+            <input type="text" id="txtIdent" name="superhero.Id" style="display: none;" />
+            <div class="md-form mb-5">
+              <i class="fa fa-pied-piper-alt fa-2x prefix text-dark" style=" font-size: 2em;"></i>
+              <input type="text" required id="txtName" name="name" class="form-control" onfocus="onEnter(this)" onblur="onExit(this)" />
+              <label for="txtName">Nome do herói</label>
+            </div>
+
+            <div class="md-form">
+              <i class="fa fa-sticky-note prefix text-dark" style="font-size: 41px"></i>
+              <textarea type="text" id="txtDescricao" name="description" class="md-textarea form-control" onfocus="onEnter(this)" onblur="onExit(this)" rows="3"></textarea>
+              <label for="txtDescricao">Descrição</label>
+            </div>
+            <label class="">Foto</label>
+            <div class="input-group image-preview align-items-center">
+              <input type="text" required class="form-control image-preview-filename" disabled="disabled">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-danger image-preview-clear" style="display:none;">
+                  <i class="fa fa-stop-circle-o"></i> Limpar
+                </button>
+
+                <div class="btn btn-indigo image-preview-input text-white">
+                  <span class="fa fa-folder-open-o"></span>
+                  <span class="image-preview-input-title">Procurar</span>
+                  <input required id="inpImage" type="file" accept="image/png, image/jpeg, image/gif" />
+                  <input type="text" id="content" accept="" name="picture" style="display: none;" />
+                </div>
+              </span>
+            </div>
+            <div class="modal-footer justify-content-center flex-row">
+              <button type="button" class="btn btn-outline-danger waves-effect btn-lg" data-dismiss="modal">Cancelar</button>
+              <button id="btnSubmit" type="submit" class="btn btn-outline-success waves-effect btn-lg">Confirmar</button>
+            </div>
+          </form>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+    <p>&copy; 2018 - Desáfio Python Backend Developer Softfocus</p>
+</footer>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="{% static "images/logo-sm.png" %}" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static "lib/bootstrap/css/bootstrap.css" %}">
+    <link rel="stylesheet" href="{% static "/lib/mdb/css/mdb.css" %}" >
+    <link rel="stylesheet" href="{% static "/css/site.css" %}" >
+    <title>Home - Superheróis</title>
+</head>
+<body>
+<div class="container-fluid px-0 ">
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg navbar-fixed-top p-2">
+
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#barraNav">
+            <i class="fa fa-align-center red fa-2x"></i>
+        </button>
+
+        <div class="collapse navbar-collapse row" id="barraNav">
+
+            <div class="col-lg-3 text-center" id="logo-left">
+                <a href="{% url 'index' %}">
+                    <img src="{% static "images/logo.png" %}" id="logo" alt="Logo">
+                </a>
+            </div>
+            <div class="col-lg-5 text-center" id="logo-left">
+                <a href="{% url 'index' %}">Portal do Miranha</a>
+            </div>
+            <div class="col-lg-4 text-right d-inline">
+
+                <div class="md-form my-0 w-100 form-inline">
+                    <input class="form-control my-0 mr-1" type="text" id="inputSearch" name="filtrer" placeholder="Search" aria-label="Search" style="width: 60%;">
+                    <button id="btnSearch" onclick="return searchSuperhero(this);" href="#" class="btn btn-primary w-25 m-0 d-flex justify-content-center" type="submit">
+                        <i class="fa fa-search" style="font-size: 1.8em; "></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="container-fluid body-content">
+    {% block body %}
+    {% endblock %}
+</div>
+
+
+<script src="{% static "js/jquery.js" %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+          crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script src="{% static "js/site.js" %}"></script>
+
+	</body>
+</html>
